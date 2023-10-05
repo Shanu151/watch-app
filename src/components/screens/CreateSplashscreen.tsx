@@ -25,6 +25,9 @@ const goToCrateAccount=()=>{
 const goToLogInScreen=()=>{
   navigation.navigate('LoginScreen');
 };
+const gotoHomeScreen=()=>{
+  navigation.navigate('MainScreen')
+}
 
   return (
     <View style={styles.container}>
@@ -35,6 +38,9 @@ const goToLogInScreen=()=>{
           <Text style={[styles.logoText, styles.colorlogotext]}>PINK</Text>
           <Text style={[styles.logoText]}>SHOP</Text>
         </View>
+        <View style={{position:'absolute',right:8,bottom:18,}}>
+        <TouchableOpacity onPress={gotoHomeScreen}><Text style={{paddingHorizontal:14,backgroundColor:'#E99282',borderRadius:100,paddingVertical: 6,color:'#fff',fontFamily:'Lora-Medium'}}>
+          SKIP {'->'} </Text></TouchableOpacity></View>
       </View>
       {/* <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} 
       style={[styles.createSplashimage,styles.linearGradient]}
@@ -48,6 +54,7 @@ const goToLogInScreen=()=>{
           source={Images.image.CreateSplashscr}
           style={styles.createSplashimages}
         />
+        
       </View>
       {/* </LinearGradient> */}
       {/* Heading with pera */}

@@ -6,7 +6,8 @@ import CreateSplashscreen from './src/components/screens/CreateSplashscreen';
 import CreateAccount from './src/components/screens/CreateAccount';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LogInScreen from './src/components/screens/LogInScreen';
+// import HomeScreen from './src/components/screens/LogInScreen';
+import MainScreen from './src/components/Dashboard/MainScreen';
 
 const Stack = createStackNavigator();
 
@@ -19,8 +20,9 @@ if(!fontsLoaded){
     <NavigationContainer>
       <Stack.Navigator initialRouteName='CreateSplashscreen' screenOptions={{headerShown:false}} >
       <Stack.Screen name="CreateSplashscreen" component={CreateSplashscreen} />
-        <Stack.Screen name="CreateAccount" component={CreateAccount} />
-        <Stack.Screen name='LoginScreen' component={LogInScreen} />
+      <Stack.Screen name="MainScreen" component={MainScreen} />
+        {/* <Stack.Screen name="CreateAccount" component={CreateAccount} />
+        <Stack.Screen name='LoginScreen' component={LogInScreen} /> */}
       </Stack.Navigator>
       </NavigationContainer>
   );
