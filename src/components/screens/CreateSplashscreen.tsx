@@ -26,7 +26,7 @@ const goToLogInScreen=()=>{
   navigation.navigate('LoginScreen');
 };
 const gotoHomeScreen=()=>{
-  navigation.navigate('MainScreen')
+  navigation.navigate('MainScreen');
 }
 
   return (

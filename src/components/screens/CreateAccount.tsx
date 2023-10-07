@@ -22,7 +22,7 @@ const CreateAccount = ({ navigation }) => {
     navigation.goBack();
   };
   const goToLogInScreen = () => {
-    navigation.navigate("LoginScreen");
+    navigation.navigate('LoginScreen');
   };
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);

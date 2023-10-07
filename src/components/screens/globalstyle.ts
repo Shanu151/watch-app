@@ -98,4 +98,8 @@ export const style = StyleSheet.create({
         color: "#9E9E9E",
         // paddingTop: 8,
       },
+      whitetext:{
+        color:'#fff',
+        fontFamily:'Lora-Regular'
+      }
 })
