@@ -1,0 +1,45 @@
+[
+  {
+    "img": "https://randomuser.me/api/portraits/men/1.jpg",
+    "width": "auto",
+    "height": "100%",
+    "borderRadius": "100",
+    "backgroundColor": "red"
+  },
+  {
+    "img": "https://randomuser.me/api/portraits/women/2.jpg",
+    "width": "auto",
+    "height": "100%",
+    "borderRadius": "100"
+  },
+  {
+    "img": "https://randomuser.me/api/portraits/men/3.jpg",
+    "width": "auto",
+    "height": "100%",
+    "borderRadius": "100"
+  },
+  {
+    "img": "https://randomuser.me/api/portraits/women/4.jpg",
+    "width": "auto",
+    "height": "100%",
+    "borderRadius": "100"
+  },
+  {
+    "img": "https://randomuser.me/api/portraits/men/5.jpg",
+    "width": "auto",
+    "height": "100%",
+    "borderRadius": "100"
+  },
+  {
+    "img": "https://img.freepik.com/free-vector/decorative-golden-mandala-red-background_1035-25425.jpg",
+    "width": "auto",
+    "height": "100%",
+    "borderRadius": "100"
+  },
+  {
+    "img": "https://img.freepik.com/free-vector/decorative-golden-mandala-red-background_1035-25425.jpg",
+    "width": "auto",
+    "height": "100%",
+    "borderRadius": "100"
+  }
+]

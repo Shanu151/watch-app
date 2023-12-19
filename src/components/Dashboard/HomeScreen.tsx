@@ -1,9 +1,22 @@
-import { ScrollView, StyleSheet, Text, View, Image } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  useWindowDimensions,
+  Dimensions,
+} from "react-native";
 import React from "react";
 import { style } from "../screens/globalstyle";
+import MainScreen from "./MainScreen";
+import Maincard from "../../Pages/Homepage/Cards/Maincard";
+import fakeInstagramFeeds from "../../Dummydata/instafeed";
+import { TouchableOpacity } from "react-native-gesture-handler";
 // import {
 //   HeaderSearchBar,
-//   HeaderClassicSearchBar 
+//   HeaderClassicSearchBar
 // } from "react-native-header-search-bar";
 
 // export { HeaderSearchBar, HeaderClassicSearchBar };
@@ -16,37 +29,64 @@ const Images = {
   },
 };
 
+const renderItem = ({ index, item }) => {
+  return (
+    <View
+      key={index}
+      style={{
+        borderColor: "green",
+        borderWidth: 2,
+        width: Dimensions.get("window").width * 0.21,
+        height: Dimensions.get("window").height * 0.1,
+        padding: 3,
+        borderRadius: Dimensions.get("window").width * 0.21,
+      }}
+    >
+      <Image
+        style={{ width: "auto", height: "100%", borderRadius: 100 }}
+        source={{ uri: item.img }}
+      />
+    </View>
+  );
+};
 const HomeScreen = () => {
+  const data = require("../../Dummydata/Storydata.json");
+  const data1 = require("../../Dummydata/Cardspost.json");
   return (
     <View style={styles.containers}>
       <View style={[styles.addresspart]}>
+        <FlatList
+          contentContainerStyle={{ marginTop: 20, gap: 12 }}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={data}
+          renderItem={renderItem}
+        />
 
-        <View style={styles.head}>
-          <View>
-            <Text style={[style.whitetext]}>Location</Text>
-            <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
-            >
-              <Text style={[style.whitetext]}>Bilzen,Tanjungbalai</Text>
-              <Image source={Images.image.downarr} />
-            </View>
-          </View>
-          <View>
-            <Image source={Images.image.profileimage} style={{width:50,height:50}}/>
-          </View>
-        </View>
-        <View>
-          <View>
-            
-          </View>
-          {/* <HeaderSearchBar onChangeText={text => console.log(text)} />
-          <HeaderClassicSearchBar onChangeText={text => console.log(text)} /> */}
-        </View>
+        {/* Applying card  */}
       </View>
-      <View></View>
-      <View>
-        <ScrollView></ScrollView>
-      </View>
+
+      <FlatList
+        nestedScrollEnabled
+        contentContainerStyle={{ flexGrow: 1, rowGap: 20 }}
+        data={fakeInstagramFeeds}
+        ListFooterComponent={
+          <TouchableOpacity
+            style={{
+              height: 40,
+              // backgroundColor: "red",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 20,
+            }}
+          >
+            <Text>No more content...</Text>
+          </TouchableOpacity>
+        }
+        renderItem={({ item, index }) => {
+          return <Maincard key={index} {...item} />;
+        }}
+      />
     </View>
   );
 };
@@ -55,24 +95,19 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   containers: {
+    marginTop: "8%",
+    gap: 10,
     flex: 1,
   },
   addresspart: {
-    flex: 0.4,
-    backgroundColor: "#313131",
-    alignItems: "center",
-    paddingVertical: 20,
+    paddingHorizontal: 2,
   },
   head: {
-    width: "85%",
-    top: 40,
-    paddingVertical: 20,
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center'
-    // margin:20
+    width: "90%",
+    paddingVertical: 0,
+    flexDirection: "row-reverse",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    gap: 10,
   },
-  seaarchfilter: {
-    width: "85%",
-  }
 });
