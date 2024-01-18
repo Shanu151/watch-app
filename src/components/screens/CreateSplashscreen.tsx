@@ -17,17 +17,17 @@ const Images = {
     CreateSplashscr: require("../../assets/images/createSplashimage.png"),
   },
 };
- 
-const CreateSplashscreen = ({navigation}) => {
-const goToCrateAccount=()=>{
-  navigation.navigate('CreateAccount');
-};
-const goToLogInScreen=()=>{
-  navigation.navigate('LoginScreen');
-};
-const gotoHomeScreen=()=>{
-  navigation.navigate('MainScreen');
-}
+
+const CreateSplashscreen = ({ navigation }) => {
+  const goToCrateAccount = () => {
+    navigation.navigate("CreateAccount");
+  };
+  const goToLogInScreen = () => {
+    navigation.navigate("LoginScreen");
+  };
+  const gotoHomeScreen = () => {
+    navigation.navigate("MainScreen");
+  };
 
   return (
     <View style={styles.container}>
@@ -38,9 +38,22 @@ const gotoHomeScreen=()=>{
           <Text style={[styles.logoText, styles.colorlogotext]}>PINK</Text>
           <Text style={[styles.logoText]}>SHOP</Text>
         </View>
-        <View style={{position:'absolute',right:8,bottom:18,}}>
-        <TouchableOpacity onPress={gotoHomeScreen}><Text style={{paddingHorizontal:14,backgroundColor:'#E99282',borderRadius:100,paddingVertical: 6,color:'#fff',fontFamily:'Lora-Medium'}}>
-          SKIP {'->'} </Text></TouchableOpacity></View>
+        <View style={{ position: "absolute", right: 8, bottom: 18 }}>
+          <TouchableOpacity onPress={gotoHomeScreen}>
+            <Text
+              style={{
+                paddingHorizontal: 14,
+                backgroundColor: "#E99282",
+                borderRadius: 100,
+                paddingVertical: 6,
+                color: "#fff",
+                fontFamily: "Lora-Medium",
+              }}
+            >
+              SKIP {"->"}{" "}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
       {/* <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} 
       style={[styles.createSplashimage,styles.linearGradient]}
@@ -54,7 +67,6 @@ const gotoHomeScreen=()=>{
           source={Images.image.CreateSplashscr}
           style={styles.createSplashimages}
         />
-        
       </View>
       {/* </LinearGradient> */}
       {/* Heading with pera */}
@@ -97,7 +109,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    paddingTop:20,  
+    paddingTop: 20,
   },
   logo: {
     flexDirection: "row",
@@ -105,7 +117,6 @@ const styles = StyleSheet.create({
     gap: 6,
     paddingVertical: 20,
     marginTop: 20,
-    
   },
   logoW: {
     textAlign: "center",
@@ -133,18 +144,16 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textTransform: "uppercase",
   },
-  createaccountdata: {
-
-  },
+  createaccountdata: {},
   createSplashimage: {
     borderBottomColor: "#fff",
     // borderWidth:4,
     borderBottomWidth: 4,
     shadowOpacity: 4,
-    flex:0.88
+    flex: 0.88,
   },
   createSplashimages: {
-    height: '100%',
+    height: "100%",
     width: "100%",
   },
   // linearGradient: {
@@ -162,7 +171,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 16,
     marginHorizontal: 20,
-    
   },
   headingtext: {
     textAlign: "center",

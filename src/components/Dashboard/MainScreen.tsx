@@ -1,30 +1,53 @@
+import React from "react";
 import {
   Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Alert, // Import Alert for showing confirmation dialogs
 } from "react-native";
-import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import { style } from "../screens/globalstyle";
 import HomeScreen from "./HomeScreen";
 import Contacts from "./Contacts";
 import Chats from "./Chats";
 import Article from "./Article";
 import Albums from "./Albums";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import { style } from "../screens/globalstyle";
 
 const Tab = createBottomTabNavigator();
 
-const MainScreen = () => {
+const MainScreen = ({
+  navigation,
+  isLoggedIn,
+  setShowLogoutPopup,
+  handleLogout,
+}) => {
+  const confirmLogout = () => {
+    // Display a confirmation dialog
+    Alert.alert(
+      "Logout",
+      "Are you sure you want to logout?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Logout",
+          onPress: () => {
+            // Handle logout when the user confirms
+            handleLogout();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#E99282",
-      }}
-    >
+    <View style={{ flex: 1, backgroundColor: "#E99282" }}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarStyle: styles.container,
@@ -71,6 +94,12 @@ const MainScreen = () => {
         <Tab.Screen name="Article" component={Article} />
         <Tab.Screen name="Albums" component={Albums} />
       </Tab.Navigator>
+
+      {/* {isLoggedIn && (
+        <TouchableOpacity style={styles.logoutButton} onPress={confirmLogout}>
+          <Text style={styles.logoutButtonText}>Logout</Text>
+        </TouchableOpacity>
+      )} */}
     </View>
   );
 };
@@ -97,5 +126,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 4,
     width: "100%",
+  },
+  logoutButton: {
+    position: "absolute",
+    top: 30,
+    right: 20,
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 10,
+  },
+
+  logoutButtonText: {
+    color: "#E99282",
+    fontWeight: "bold",
   },
 });

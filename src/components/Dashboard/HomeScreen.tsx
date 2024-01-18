@@ -1,113 +1,227 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  FlatList,
-  useWindowDimensions,
-  Dimensions,
-} from "react-native";
-import React from "react";
-import { style } from "../screens/globalstyle";
-import MainScreen from "./MainScreen";
-import Maincard from "../../Pages/Homepage/Cards/Maincard";
-import fakeInstagramFeeds from "../../Dummydata/instafeed";
-import { TouchableOpacity } from "react-native-gesture-handler";
-// import {
-//   HeaderSearchBar,
-//   HeaderClassicSearchBar
-// } from "react-native-header-search-bar";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Calendar, LocaleConfig } from "react-native-calendars";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import moment from "moment";
 
-// export { HeaderSearchBar, HeaderClassicSearchBar };
-// export default { HeaderSearchBar, HeaderClassicSearchBar };
-
-const Images = {
-  image: {
-    downarr: require("../../assets/images/downarrow.png"),
-    profileimage: require("../../assets/images/profileimage.png"),
-  },
+LocaleConfig.locales["en"] = {
+  monthNames: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+  monthNamesShort: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
+  dayNames: [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ],
+  dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  today: "Today",
 };
+LocaleConfig.defaultLocale = "en";
 
-const renderItem = ({ index, item }) => {
-  return (
-    <View
-      key={index}
-      style={{
-        borderColor: "green",
-        borderWidth: 2,
-        width: Dimensions.get("window").width * 0.21,
-        height: Dimensions.get("window").height * 0.1,
-        padding: 3,
-        borderRadius: Dimensions.get("window").width * 0.21,
-      }}
-    >
-      <Image
-        style={{ width: "auto", height: "100%", borderRadius: 100 }}
-        source={{ uri: item.img }}
-      />
-    </View>
-  );
-};
-const HomeScreen = () => {
-  const data = require("../../Dummydata/Storydata.json");
-  const data1 = require("../../Dummydata/Cardspost.json");
-  return (
-    <View style={styles.containers}>
-      <View style={[styles.addresspart]}>
-        <FlatList
-          contentContainerStyle={{ marginTop: 20, gap: 12 }}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={data}
-          renderItem={renderItem}
-        />
+const HomeScreen = ({ navigation }) => {
+  const [user, setUser] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
-        {/* Applying card  */}
+  useEffect(() => {
+    // Fetch user data from API or AsyncStorage
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      // Make the API call to get user data
+      const response = await fetch("https://new-api-staging.rydeu.com/user", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Add any necessary authentication headers
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setUser(data); // Set user data in state
+      } else {
+        console.log("Failed to fetch user data");
+        console.error(
+          `Server returned status ${response.status}: ${response.statusText}`
+        );
+        throw new Error("Failed to fetch user data");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      // Clear AsyncStorage and navigate to the login screen
+      await AsyncStorage.removeItem("isLoggedIn");
+      navigation.navigate("LogInScreen");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
+  const showDateTimePicker = () => {
+    setShowDatePicker(true);
+  };
+
+  const hideDateTimePicker = () => {
+    setShowDatePicker(false);
+  };
+
+  const handleDateChange = (event, date) => {
+    hideDateTimePicker();
+
+    if (date) {
+      const formattedDate = moment(date).format("YYYY-MM-DD");
+      setSelectedDate(formattedDate);
+    }
+  };
+
+  const handleTimeChange = (event, date) => {
+    hideDateTimePicker();
+
+    if (date) {
+      const formattedTime = moment(date).format("HH:mm");
+      setSelectedTime(formattedTime);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        {user && <Text style={styles.headerText}>Welcome, {user.name}!</Text>}
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.logoutButtonText}>Logout</Text>
+        </TouchableOpacity>
       </View>
 
-      <FlatList
-        nestedScrollEnabled
-        contentContainerStyle={{ flexGrow: 1, rowGap: 20 }}
-        data={fakeInstagramFeeds}
-        ListFooterComponent={
-          <TouchableOpacity
-            style={{
-              height: 40,
-              // backgroundColor: "red",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 20,
-            }}
-          >
-            <Text>No more content...</Text>
-          </TouchableOpacity>
-        }
-        renderItem={({ item, index }) => {
-          return <Maincard key={index} {...item} />;
+      <View style={styles.datePickerContainer}>
+        <TouchableOpacity
+          style={styles.datePickerButton}
+          onPress={showDateTimePicker}
+        >
+          <Text style={styles.datePickerButtonText}>Select Date & Time</Text>
+        </TouchableOpacity>
+
+        {/* Display selected date and time */}
+        {selectedDate && selectedTime && (
+          <View style={{ alignItems: "center" }}>
+            <Text style={styles.selectedDateTime}>
+              Selected Date and Time: {selectedDate} {selectedTime}
+            </Text>
+          </View>
+        )}
+      </View>
+
+      {showDatePicker && (
+        <DateTimePicker
+          value={new Date()}
+          mode="datetime"
+          display="default"
+          onChange={handleDateChange}
+        />
+      )}
+
+      {/* Custom calendar */}
+      <Calendar
+        onDayPress={(day) => console.log("selected day", day)}
+        monthFormat="MMMM yyyy"
+        hideArrows={false}
+        hideExtraDays={true}
+        disableMonthChange={true}
+        markedDates={{
+          [selectedDate]: {
+            selected: true,
+            marked: true,
+            selectedColor: "#E99282",
+          },
         }}
       />
     </View>
   );
 };
 
-export default HomeScreen;
-
 const styles = StyleSheet.create({
-  containers: {
-    marginTop: "8%",
-    gap: 10,
+  container: {
     flex: 1,
+    backgroundColor: "#fff",
+    padding: 16,
   },
-  addresspart: {
-    paddingHorizontal: 2,
-  },
-  head: {
-    width: "90%",
-    paddingVertical: 0,
-    flexDirection: "row-reverse",
-    justifyContent: "flex-end",
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    gap: 10,
+    marginBottom: 16,
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  logoutButton: {
+    backgroundColor: "#E99282",
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 30,
+  },
+  logoutButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  datePickerContainer: {
+    marginBottom: 16,
+  },
+  datePickerButton: {
+    backgroundColor: "#E99282",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  datePickerButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  selectedDateTime: {
+    marginTop: 8,
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
+
+export default HomeScreen;
